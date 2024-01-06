@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { getExpenses } from "../api/gsheetData";
+import ExpenseBar from "./ExpenseBar";
 
 type expensesProps = {
   day: string;
@@ -9,42 +11,26 @@ const Dashboard = () => {
   const [expenses, setExpenses] = useState<expensesProps[]>([]);
 
   useEffect(() => {
-    const api = async () => {
-      const data = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSlGapB5abKJ9G6HgbpjUAwuOM05PfpGWoOFFPqC4bkDiZWhRtX19wQ7m3N8gK0exXbGrVFXRW0hAjr/pub?gid=0&single=true&output=csv", {
-        method: "GET"
-      });
-      const textData = await data.text();
-      const expensesData = textData.split('\n').map(row => {
-        const [day, amount] = row.split(',')
-
-        return {
-          day,
-          amount
-        }
-      })
-
-      setExpenses(expensesData);
-    };
-
-    api();
-  }, []);
+    getExpenses().then(res => {
+      setExpenses(res)
+    })
+  }, [expenses]);
 
   return (
-    <>
-      <h1 className="text-3xl font-bold underline text-orange-400">
-        Expenses Chart
+    <div className="h-lvh flex flex-col justify-center items-center">
+      <h1 className="mb-16 text-4xl font-bold text-gray-400">
+      💰 Expenses Chart 💰
       </h1>
-      <div>
+      <div className="flex gap-2 justify-center">
         {expenses.map((value) => {
           return (
-            <div key={value.day}>
-              <div>{value.day}</div>
-              <div>{value.amount}</div>
-            </div>
+            <ExpenseBar day={value.day} amount={value.amount} key={value.day} />
           );
         })}
       </div>
-    </>
+      <p className="text-sm text-gray-500 mt-16 italic">* This data is fetched from a Google Sheet</p>
+      <p className="text-xs text-gray-600 mt-3">React ・ Typescript ・ Tailwind</p>
+    </div>
   )
 
 }
