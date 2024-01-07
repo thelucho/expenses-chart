@@ -29,7 +29,7 @@ const Dashboard = () => {
         })}
       </div>
       <p className="text-sm text-gray-500 mt-16 italic">* This data is fetched from a Google Sheet</p>
-      <p className="text-xs text-gray-600 mt-3">React ・ Typescript ・ Tailwind</p>
+      <p className="text-xs text-gray-600 mt-3">React ・ Typescript ・ Tailwind ・ Vite</p>
     </div>
   )
 
