@@ -1,27 +1,19 @@
-import { useState, useEffect } from "react";
-import { getExpenses } from "../api/gsheetData";
+import React from "react";
 import ExpenseBar from "./ExpenseBar";
+import { useExpenses } from "../hooks/useExpenses";
+import SkeletonBar from "./SkeletonBar";
 
-type expensesProps = {
-  day: string;
-  amount: string;
-};
-
-const Dashboard = () => {
-  const [expenses, setExpenses] = useState<expensesProps[]>([]);
-
-  useEffect(() => {
-    getExpenses().then(res => {
-      setExpenses(res)
-    })
-  }, [expenses]);
+const Dashboard: React.FC = () => {
+  const { expenses, loading } = useExpenses();
 
   return (
     <div className="h-lvh flex flex-col justify-center items-center">
       <h1 className="mb-16 text-4xl font-bold text-gray-400">
       💰 Expenses Chart 💰
       </h1>
+      
       <div className="flex gap-2 justify-center">
+        {loading && [1,2,3,4,5,6,7].map((n) => <SkeletonBar key={n}/>)}
         {expenses.map((value) => {
           return (
             <ExpenseBar day={value.day} amount={value.amount} key={value.day} />

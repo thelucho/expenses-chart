@@ -1,10 +1,7 @@
-type ExpenseBarProps = {
-  day: string,
-  amount: string
-}
+import { Expense } from "../types/expenses"
 
-const ExpenseBar = (props: ExpenseBarProps) => {
-  const heightBar = parseInt(props.amount)*208/1000
+const ExpenseBar = (props: Expense) => {
+  const heightBar = parseInt(props.amount) * 208 / 1000
 
   return (
     <div className="w-14 flex flex-col justify-center group">
